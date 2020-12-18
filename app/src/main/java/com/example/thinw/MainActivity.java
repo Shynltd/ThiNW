@@ -5,6 +5,13 @@ import androidx.constraintlayout.solver.state.State;
 
 import android.os.Bundle;
 
+import com.androidnetworking.AndroidNetworking;
+import com.androidnetworking.error.ANError;
+import com.androidnetworking.interfaces.JSONArrayRequestListener;
+import com.jacksonandroidnetworking.JacksonParserFactory;
+
+import org.json.JSONArray;
+
 public class MainActivity extends AppCompatActivity {
     private String LINK = "";
     @Override
@@ -15,7 +22,6 @@ public class MainActivity extends AppCompatActivity {
         AndroidNetworking.setParserFactory(new JacksonParserFactory());
         AndroidNetworking.get(LINK)
                 .addPathParameter("pageNumber", "0")
-                .addQueryParameter("limit", "3")
                 .build()
                 .getAsJSONArray(new JSONArrayRequestListener() {
                     @Override
