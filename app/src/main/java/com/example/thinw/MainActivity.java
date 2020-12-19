@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.error.ANError;
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText edtSearch;
     private RecyclerView rvList;
     private MyAdapter myAdapter;
+    private SwipeRefreshLayout swipeRefreshLayout;
     private List<Example> exampleList;
 
     @Override
@@ -35,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();
+        AndroidNetworking.initialize(getApplicationContext());
+        AndroidNetworking.setParserFactory(new JacksonParserFactory());
         exampleList = new ArrayList<>();
         myAdapter = new MyAdapter(MainActivity.this,exampleList);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(MainActivity.this);
@@ -42,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
         rvList.setHasFixedSize(true);
         rvList.setAdapter(myAdapter);
         getEmail();
+        
         edtSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -74,8 +79,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getEmail() {
-        AndroidNetworking.initialize(getApplicationContext());
-        AndroidNetworking.setParserFactory(new JacksonParserFactory());
         AndroidNetworking.get(LINK)
                 .build()
                 .getAsJSONArray(new JSONArrayRequestListener() {
@@ -90,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
                                 String body = response.getJSONObject(i).getString("body");
                                 exampleList.add(new Example(postId,id,name,email,body));
                                 myAdapter.notifyDataSetChanged();
+
                             }
                         } catch (JSONException e) {
                             Log.e("onResponse: ", e.getMessage() );
@@ -107,5 +111,6 @@ public class MainActivity extends AppCompatActivity {
     private void initView() {
         edtSearch = (EditText) findViewById(R.id.tvSearch);
         rvList = (RecyclerView) findViewById(R.id.rvList);
+        swipeRefreshLayout = findViewById(R.id.sw);
     }
 }
