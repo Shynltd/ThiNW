@@ -18,6 +18,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyHolder> {
     private Context context;
     private List<Example> mList;
 
+    public void filterList(List<Example> l, Context context) {
+        this.mList = l;
+        this.context = context;
+    }
     public MyAdapter(Context context, List<Example> mList) {
         this.context = context;
         this.mList = mList;

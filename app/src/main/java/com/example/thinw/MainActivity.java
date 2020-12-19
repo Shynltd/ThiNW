@@ -1,7 +1,10 @@
 package com.example.thinw;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -22,7 +25,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private String LINK = "https://jsonplaceholder.typicode.com/comments";
-    private TextView tvSearch;
+    private EditText edtSearch;
     private RecyclerView rvList;
     private MyAdapter myAdapter;
     private List<Example> exampleList;
@@ -39,7 +42,35 @@ public class MainActivity extends AppCompatActivity {
         rvList.setHasFixedSize(true);
         rvList.setAdapter(myAdapter);
         getEmail();
+        edtSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                
+            }
 
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                filter(s.toString());
+            }
+        });
+    }
+
+    private void filter(String s) {
+        List<Example> userListFilter = new ArrayList<>();
+
+        for (Example example : exampleList) {
+            if (example.getEmail().toLowerCase().contains(s.toLowerCase())) {
+                userListFilter.add(example);
+            }
+
+        }
+        myAdapter.filterList(userListFilter, MainActivity.this);
+        myAdapter.notifyDataSetChanged();
     }
 
     private void getEmail() {
@@ -74,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        tvSearch = (TextView) findViewById(R.id.tvSearch);
+        edtSearch = (EditText) findViewById(R.id.tvSearch);
         rvList = (RecyclerView) findViewById(R.id.rvList);
     }
 }
