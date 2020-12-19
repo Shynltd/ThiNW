@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    private String LINK = "https://jsonplaceholder.typicode.com/comments";
+    private String LINK = "https://jsonplaceholder.typicode.com/albums";
     private EditText edtSearch;
     private RecyclerView rvList;
     private MyAdapter myAdapter;
@@ -46,7 +46,17 @@ public class MainActivity extends AppCompatActivity {
         rvList.setHasFixedSize(true);
         rvList.setAdapter(myAdapter);
         getEmail();
-
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                exampleList.clear();
+                myAdapter.notifyDataSetChanged();
+//                getEmail();
+//
+//                myAdapter.notifyDataSetChanged();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
         edtSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -69,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
         List<Example> userListFilter = new ArrayList<>();
 
         for (Example example : exampleList) {
-            if (example.getEmail().toLowerCase().contains(s.toLowerCase())) {
+            if (String.valueOf(example.getId()).toLowerCase().contains(s.toLowerCase())) {
                 userListFilter.add(example);
             }
 
@@ -86,15 +96,14 @@ public class MainActivity extends AppCompatActivity {
                     public void onResponse(JSONArray response) {
                         try {
                             for (int i = 0; i < response.length(); i++) {
-                                Integer postId = response.getJSONObject(i).getInt("postId");
+                                Integer postId = response.getJSONObject(i).getInt("userId");
                                 Integer id = response.getJSONObject(i).getInt("id");
-                                String name = response.getJSONObject(i).getString("name");
-                                String email = response.getJSONObject(i).getString("email");
-                                String body = response.getJSONObject(i).getString("body");
-                                exampleList.add(new Example(postId,id,name,email,body));
+                                String name = response.getJSONObject(i).getString("title");
+                                exampleList.add(new Example(postId,id,name));
                                 myAdapter.notifyDataSetChanged();
 
                             }
+
                         } catch (JSONException e) {
                             Log.e("onResponse: ", e.getMessage() );
                         }

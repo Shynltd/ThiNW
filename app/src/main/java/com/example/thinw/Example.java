@@ -6,28 +6,28 @@ import com.google.gson.annotations.SerializedName;
 
 public class Example {
 
-    @SerializedName("postId")
+    @SerializedName("userId")
     @Expose
-    private Integer postId;
+    private Integer userId;
     @SerializedName("id")
     @Expose
     private Integer id;
-    @SerializedName("name")
+    @SerializedName("title")
     @Expose
-    private String name;
-    @SerializedName("email")
-    @Expose
-    private String email;
-    @SerializedName("body")
-    @Expose
-    private String body;
+    private String title;
 
-    public Integer getPostId() {
-        return postId;
+    public Example(Integer userId, Integer id, String title) {
+        this.userId = userId;
+        this.id = id;
+        this.title = title;
     }
 
-    public void setPostId(Integer postId) {
-        this.postId = postId;
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public Integer getId() {
@@ -38,35 +38,11 @@ public class Example {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getBody() {
-        return body;
-    }
-
-    public void setBody(String body) {
-        this.body = body;
-    }
-
-    public Example(Integer postId, Integer id, String name, String email, String body) {
-        this.postId = postId;
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.body = body;
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

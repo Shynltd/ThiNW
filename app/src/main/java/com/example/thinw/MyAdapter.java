@@ -51,11 +51,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyHolder> {
                 TextView tvId= alert.findViewById(R.id.tvId);
                 TextView tvbody= alert.findViewById(R.id.tvBody);
                 TextView tvEmail= alert.findViewById(R.id.tvEmail);
-                tvPostId.setText(mList.get(position).getPostId()+"");
-                tvName.setText(mList.get(position).getName()+"");
+                tvPostId.setText(mList.get(position).getUserId()+"");
+                tvName.setText(mList.get(position).getTitle()+"");
                 tvId.setText(mList.get(position).getId()+"");
-                tvbody.setText(mList.get(position).getBody()+"");
-                tvEmail.setText(mList.get(position).getEmail()+"");
                 builder.create().show();
             }
         });
