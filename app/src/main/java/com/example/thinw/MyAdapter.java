@@ -36,12 +36,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull MyHolder holder, int position) {
-        holder.tvComment.setText(mList.get(position).getEmail());
-        for (int i=0;i<mList.get(position).getEmail().length();i++){
-            String n = String.valueOf(mList.get(position).getEmail().charAt(i));
-            if (n.equalsIgnoreCase("n")) {
-                holder.tvComment.setTextColor(Color.parseColor("#2C367A"));
-            };
+        holder.tvComment.setText(mList.get(position).getId()+"");
+        if (mList.get(position).getId()%3 == 0){
+            holder.tvComment.setCompoundDrawablesWithIntrinsicBounds(R.drawable.baseline_star_black_18dp, 0, 0, 0);;
         }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
