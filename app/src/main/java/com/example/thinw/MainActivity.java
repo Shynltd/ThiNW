@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         rvList.setHasFixedSize(true);
         rvList.setAdapter(myAdapter);
         getEmail();
-        
+
         edtSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
